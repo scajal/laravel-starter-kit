@@ -8,6 +8,7 @@ use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Filament\Actions;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Assets\Css;
 use Filament\Support\Components;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Enums\Width;
@@ -33,6 +34,7 @@ class AdministrationPanelProvider extends PanelProvider
     {
         return $panel
             ->id('administration')
+            ->assets([Css::make('instrument-sans', 'https://fonts.bunny.net/css?family=instrument-sans:400,500,600')])
             ->authMiddleware([\Filament\Http\Middleware\Authenticate::class])
             ->colors(['primary' => '#4B5563'])
             ->databaseNotifications()
@@ -43,6 +45,7 @@ class AdministrationPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Administration/Resources'), for: 'App\Administration\Resources')
             ->discoverWidgets(in: app_path('Administration/Widgets'), for: 'App\Administration\Widgets')
             ->favicon('favico.ico')
+            ->login()
             ->maxContentWidth(Width::Full)
             ->middleware([
                 \Illuminate\Cookie\Middleware\EncryptCookies::class,

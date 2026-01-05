@@ -1,10 +1,9 @@
 import '../css/app.css';
 
 import { createInertiaApp, router } from '@inertiajs/react';
-import { LaravelReactI18nProvider as I18nProvider } from 'laravel-react-i18n';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { Wrapper } from './wrapper';
 
 // Make sure the intercepted pages are not
 // shown in an ungly modal.
@@ -33,9 +32,9 @@ createInertiaApp({
         el.removeAttribute('data-page');
 
         createRoot(el).render(
-            <Application>
+            <Wrapper>
                 <App {...props} />
-            </Application>,
+            </Wrapper>,
         );
     },
 
@@ -44,20 +43,3 @@ createInertiaApp({
      */
     title: (title) => (title ? `${title} - ${import.meta.env.VITE_APP_NAME}` : import.meta.env.VITE_APP_NAME),
 });
-
-/**
- * The application's wrapper.
- */
-const Application = ({ children }: { children: React.ReactNode }) => {
-    return (
-        <React.StrictMode>
-            <I18nProvider
-                locale={document.documentElement.getAttribute('lang') as string}
-                fallbackLocale="en"
-                files={import.meta.glob('/lang/*.json')}
-            >
-                {children}
-            </I18nProvider>
-        </React.StrictMode>
-    );
-};

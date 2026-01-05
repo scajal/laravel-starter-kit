@@ -1,0 +1,9 @@
+@import '../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../app/Filament//home/scajal/projects/laravel-starter-kit/app/Administration/**/*';
+@source '../../../resources/views/filament//home/scajal/projects/laravel-starter-kit/app/administration/**/*';
+
+@theme {
+    --font-sans:
+        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}

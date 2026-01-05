@@ -9,7 +9,7 @@ export default defineConfig({
     plugins: [
         i18n(),
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.tsx'],
+            input: ['resources/css/app.css', 'resources/js/app.tsx', 'resources/css/administration/theme.css'],
             ssr: 'resources/js/ssr.tsx',
             refresh: true,
         }),

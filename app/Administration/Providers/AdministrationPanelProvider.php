@@ -58,6 +58,7 @@ class AdministrationPanelProvider extends PanelProvider
                 \Filament\Http\Middleware\DisableBladeIconComponents::class,
                 \Filament\Http\Middleware\DispatchServingFilamentEvent::class,
             ])
+            ->pages([\Filament\Pages\Dashboard::class])
             ->path('administration')
             ->sidebarFullyCollapsibleOnDesktop()
             ->spa()

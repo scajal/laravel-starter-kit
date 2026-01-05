@@ -6,10 +6,13 @@ namespace App\Core\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\App;
 
 /**
  * @property int $id
@@ -29,7 +32,7 @@ use Illuminate\Notifications\Notifiable;
  *
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\Core\Models\UserFactory> */
     use HasFactory;
@@ -57,6 +60,16 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    /**
+     * Indicate if the user can access the administration panel.
+     *
+     * @todo: Implement with the actual logic.
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return ! App::isProduction();
+    }
 
     /**
      * Get the attributes that should be cast.

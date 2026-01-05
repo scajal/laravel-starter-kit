@@ -75,11 +75,10 @@
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
         ],
-        "prepare": [
+        "lint": [
             "@rector",
             "@pint",
-            "@types",
-            "@test"
+            "@types"
         ],
         "rector": [
             "rector"

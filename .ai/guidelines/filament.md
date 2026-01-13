@@ -1,6 +1,7 @@
 ## Filament Rules
 
 - When generating Filament resource, you MUST generate Filament smoke tests to check if the Resource works. When making changes to Filament resource, you MUST run the tests (generate them if they don't exist) and make changes to resource/tests to make the tests pass.
+- When generating a Filament resource, extend the class from `\App\Administration\Resources\Resource` instead of `\Filament\Resources\Resource`.
 - When generating a Filament resource's View page, don't use infolists. Instead, use the resource's form.
 - When referencing the Filament routes, aim to use `getUrl()` instead of Laravel `route()`. Instead of `route('filament.admin.resources.class-schedules.index')`, use `ClassScheduleResource::getUrl('index')`. Also, specify the exact Resource name, instead of `getResource()`.
 - When writing tests with Pest, use syntax `Livewire::test(class)` and not `livewire(class)`, to avoid extra dependency on `pestphp/pest-plugin-livewire`.

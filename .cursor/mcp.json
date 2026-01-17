@@ -1,10 +1,9 @@
 {
     "mcpServers": {
         "laravel-boost": {
-            "command": "wsl.exe",
+            "command": "php",
             "args": [
-                "/usr/bin/php8.4",
-                "/home/scajal/projects/laravel-starter-kit/artisan",
+                "artisan",
                 "boost:mcp"
             ]
         }

@@ -14,7 +14,9 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "laravel/wayfinder": "^0.1.11",
-        "nunomaduro/essentials": "^1.0"
+        "nunomaduro/essentials": "^1.0",
+        "spatie/laravel-data": "^4.18",
+        "spatie/laravel-multitenancy": "^4.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.6",

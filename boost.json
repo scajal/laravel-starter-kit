@@ -5,5 +5,7 @@
     "editors": [
         "cursor"
     ],
-    "guidelines": []
+    "guidelines": [
+        "filament/filament"
+    ]
 }

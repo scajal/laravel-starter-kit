@@ -2,6 +2,85 @@
 alwaysApply: true
 ---
 <laravel-boost-guidelines>
+=== .ai/filament rules ===
+
+## Filament Rules
+
+- When generating Filament resource, you MUST generate Filament smoke tests to check if the Resource works. When making changes to Filament resource, you MUST run the tests (generate them if they don't exist) and make changes to resource/tests to make the tests pass.
+- When generating a Filament resource, extend the class from `\App\Administration\Resources\Resource` instead of `\Filament\Resources\Resource`.
+- When generating a Filament resource's View page, don't use infolists. Instead, use the resource's form.
+- When referencing the Filament routes, aim to use `getUrl()` instead of Laravel `route()`. Instead of `route('filament.admin.resources.class-schedules.index')`, use `ClassScheduleResource::getUrl('index')`. Also, specify the exact Resource name, instead of `getResource()`.
+- When writing tests with Pest, use syntax `Livewire::test(class)` and not `livewire(class)`, to avoid extra dependency on `pestphp/pest-plugin-livewire`.
+- When using Enum class for Eloquent Model field, add Enum `HasLabel` interface if not added yet instead of specifying values/labels/colors/icons inside of Filament Forms/Tables. **CRITICAL**: Always use the exact return type declarations from the interface definitions - do NOT substitute specific types (e.g., use `string|BackedEnum|Htmlable|null` for `getIcon()`, not `string|Heroicon|null`). When defining a default using enum never add `->value`. Refer to this docs page: https://filamentphp.com/docs/4.x/advanced/enums
+- Always use Enum instead of hardcoded string value where possible, if Enum class exists. For example, in the tests, when creating data, if field is casted to Enum, then use that Enum instead of hardcoded string value.
+- When adding icons, always use the Filament enum Filament\Support\Icons\Heroicon class instead of string.
+- When adding actions that require authorization, use the `->authorize('ability')` method on the action instead of manually calling `Gate::authorize()` or checking `Gate::allows()`. The `authorize()` method handles both authorization enforcement and action visibility automatically.
+- In Filament v4, validation rule `unique()` has `ignoreRecord: true` by default, no need to specify it.
+- In Filament v4, if you create custom Blade files with Tailwind classes, you need to create a custom theme and specify the folder of those Blade files in theme.css.
+- When creating a resource, copy and use other resources as base, if any, replacing the corresponding classes.
+
+
+=== .ai/laravel rules ===
+
+## General code instructions
+
+- Don't generate code comments above the methods or code blocks if they are already commented. Don't add docblock comments when defining variables, unless instructed to, like `/** @var \App\Models\User $currentUser */`. Generate comments only for something that needs extra explanation for the reasons why that code was written. If defining dockblocks for variables, always use the FQDN of the variable's type.
+- For new features, you MUST generate Pest automated tests.
+- For library documentation, if some library is not available in Laravel Boost 'search-docs', always use context7. Automatically use the Context7 MCP tools to resolve library id and get library docs without me having to explicitly ask.
+
+---
+
+## PHP instructions
+
+- In PHP, use `match` operator over `switch` whenever possible
+- Generate Enums always in the folder corresponding namespace folder, for example `app/Core/Enums`, not in the main `app/` folder, unless instructed differently.
+- Always use Enum value as the default in the migration if column values are from the enum. Always casts this column to the enum type in the Model.
+- Don't create temporary variables like `$currentUser = auth()->user()` if that variable is used only one time.
+- Always use Enum where possible instead of hardcoded string values, if Enum class exists. For example, in Blade files, and in the tests when creating data if field is casted to Enum then use that Enum instead of hardcoding the value.
+
+---
+
+## Laravel instructions
+
+- Using Services in Controllers: if Service class is used only in ONE method of Controller, inject it directly into that method with type-hinting. If Service class is used in MULTIPLE methods of Controller, initialize it in Constructor.
+- **Eloquent Observers** should be registered in Eloquent Models with PHP Attributes, and not in AppServiceProvider. Example: `#[ObservedBy([UserObserver::class])]` with `use Illuminate\Database\Eloquent\Attributes\ObservedBy;` on top
+- Aim for "slim" Controllers and put larger logic pieces in Action classes
+- Use Laravel facades instead of helper classes. Examples: use `Auth::id()` instead of `auth()->id()`.
+- In Livewire projects, don't use Livewire Volt. Only Livewire class components.
+- When adding columns in a migration, update the model's `$fillable` array to include those new attributes, unless they are
+  foreign key columns referencing another table. In that case, generate the corresponding relationship method. For example, if you define the following column `$table->foreignIdFor(User::class)->constrained()`, generate the method `public function user(): BelongsTo { return $this->belongsTo(User::class); }` in the corresponding class.
+- Never chain multiple migration-creating commands (e.g., `make:model -m`, `make:migration`) with `&&` or `;` — they may get identical timestamps. Run each command separately and wait for completion before running the next.
+- Enums: If a PHP Enum exists for a domain concept, always use its cases (or their `->value`) instead of raw strings everywhere — routes, middleware, migrations, seeds, configs, and UI defaults.
+- Controllers: Don't create invokable controllers. Instead, define a method with the corresponding name. For example, if a
+  controller only shows a single resource, define `public function show(...)` instead of `public function __invoke(...)`.
+- Always use Laravel's @session() directive instead of @if(session()) for displaying flash messages in Blade templates.
+- In Blade files always use `@selected()` and `@checked()` directives instead of `selected` and `checked` HTML attributes. Good example: @selected(old('status') === App\Enums\ProjectStatus::Pending->value). Bad example: {{ old('status') === App\Enums\ProjectStatus::Pending->value ? 'selected' : '' }}.
+
+---
+
+## Inertia instructions
+
+---
+
+## Testing instructions
+
+### Before Writing Tests
+
+1. **Check database schema** - Use `database-schema` tool to understand:
+    - Which columns have defaults
+    - Which columns are nullable
+    - Foreign key relationship names
+
+2. **Verify relationship names** - Read the model file to confirm:
+    - Exact relationship method names (not assumed from column names)
+    - Return types and related models
+
+3. **Test realistic states** - Don't assume:
+    - Empty model = all nulls (check for defaults)
+    - `user_id` foreign key = `user()` relationship (could be `author()`, `employer()`, etc.)
+    - When testing form submissions that redirect back with errors, assert that old input is preserved using `assertSessionHasOldInput()`.
+
+
 === foundation rules ===
 
 # Laravel Boost Guidelines
@@ -26,9 +105,9 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - phpunit/phpunit (PHPUNIT) - v12
 - rector/rector (RECTOR) - v2
 - @inertiajs/react (INERTIA) - v2
+- @laravel/vite-plugin-wayfinder (WAYFINDER) - v0
 - react (REACT) - v19
 - tailwindcss (TAILWINDCSS) - v4
-- @laravel/vite-plugin-wayfinder (WAYFINDER) - v0
 - eslint (ESLINT) - v9
 - prettier (PRETTIER) - v3
 
@@ -121,6 +200,14 @@ protected function isAccessible(User $user, ?string $path = null): bool
 
 ## Enums
 - Typically, keys in an Enum should be TitleCase. For example: `FavoritePerson`, `BestLake`, `Monthly`.
+
+
+=== tests rules ===
+
+## Test Enforcement
+
+- Every change must be programmatically tested. Write a new test or update an existing test, then run the affected tests to make sure they pass.
+- Run the minimum number of tests needed to ensure code quality and speed. Use `php artisan test` with a specific filename or filter.
 
 
 === inertia-laravel/core rules ===
@@ -591,4 +678,104 @@ export default () => (
 | overflow-ellipsis | text-ellipsis |
 | decoration-slice | box-decoration-slice |
 | decoration-clone | box-decoration-clone |
+
+
+=== filament/filament rules ===
+
+## Filament
+- Filament is used by this application, check how and where to follow existing application conventions.
+- Filament is a Server-Driven UI (SDUI) framework for Laravel. It allows developers to define user interfaces in PHP using structured configuration objects. It is built on top of Livewire, Alpine.js, and Tailwind CSS.
+- You can use the `search-docs` tool to get information from the official Filament documentation when needed. This is very useful for Artisan command arguments, specific code examples, testing functionality, relationship management, and ensuring you're following idiomatic practices.
+- Utilize static `make()` methods for consistent component initialization.
+
+### Artisan
+- You must use the Filament specific Artisan commands to create new files or components for Filament. You can find these with the `list-artisan-commands` tool, or with `php artisan` and the `--help` option.
+- Inspect the required options, always pass `--no-interaction`, and valid arguments for other options when applicable.
+
+### Filament's Core Features
+- Actions: Handle doing something within the application, often with a button or link. Actions encapsulate the UI, the interactive modal window, and the logic that should be executed when the modal window is submitted. They can be used anywhere in the UI and are commonly used to perform one-time actions like deleting a record, sending an email, or updating data in the database based on modal form input.
+- Forms: Dynamic forms rendered within other features, such as resources, action modals, table filters, and more.
+- Infolists: Read-only lists of data.
+- Notifications: Flash notifications displayed to users within the application.
+- Panels: The top-level container in Filament that can include all other features like pages, resources, forms, tables, notifications, actions, infolists, and widgets.
+- Resources: Static classes that are used to build CRUD interfaces for Eloquent models. Typically live in `app/Filament/Resources`.
+- Schemas: Represent components that define the structure and behavior of the UI, such as forms, tables, or lists.
+- Tables: Interactive tables with filtering, sorting, pagination, and more.
+- Widgets: Small component included within dashboards, often used for displaying data in charts, tables, or as a stat.
+
+### Relationships
+- Determine if you can use the `relationship()` method on form components when you need `options` for a select, checkbox, repeater, or when building a `Fieldset`:
+
+<code-snippet name="Relationship example for Form Select" lang="php">
+Forms\Components\Select::make('user_id')
+    ->label('Author')
+    ->relationship('author')
+    ->required(),
+</code-snippet>
+
+
+## Testing
+- It's important to test Filament functionality for user satisfaction.
+- Ensure that you are authenticated to access the application within the test.
+- Filament uses Livewire, so start assertions with `livewire()` or `Livewire::test()`.
+
+### Example Tests
+
+<code-snippet name="Filament Table Test" lang="php">
+    livewire(ListUsers::class)
+        ->assertCanSeeTableRecords($users)
+        ->searchTable($users->first()->name)
+        ->assertCanSeeTableRecords($users->take(1))
+        ->assertCanNotSeeTableRecords($users->skip(1))
+        ->searchTable($users->last()->email)
+        ->assertCanSeeTableRecords($users->take(-1))
+        ->assertCanNotSeeTableRecords($users->take($users->count() - 1));
+</code-snippet>
+
+<code-snippet name="Filament Create Resource Test" lang="php">
+    livewire(CreateUser::class)
+        ->fillForm([
+            'name' => 'Howdy',
+            'email' => 'howdy@example.com',
+        ])
+        ->call('create')
+        ->assertNotified()
+        ->assertRedirect();
+
+    assertDatabaseHas(User::class, [
+        'name' => 'Howdy',
+        'email' => 'howdy@example.com',
+    ]);
+</code-snippet>
+
+<code-snippet name="Testing Multiple Panels (setup())" lang="php">
+    use Filament\Facades\Filament;
+
+    Filament::setCurrentPanel('app');
+</code-snippet>
+
+<code-snippet name="Calling an Action in a Test" lang="php">
+    livewire(EditInvoice::class, [
+        'invoice' => $invoice,
+    ])->callAction('send');
+
+    expect($invoice->refresh())->isSent()->toBeTrue();
+</code-snippet>
+
+
+### Important Version 4 Changes
+- File visibility is now `private` by default.
+- The `deferFilters` method from Filament v3 is now the default behavior in Filament v4, so users must click a button before the filters are applied to the table. To disable this behavior, you can use the `deferFilters(false)` method.
+- The `Grid`, `Section`, and `Fieldset` layout components no longer span all columns by default.
+- The `all` pagination page method is not available for tables by default.
+- All action classes extend `Filament\Actions\Action`. No action classes exist in `Filament\Tables\Actions`.
+- The `Form` & `Infolist` layout components have been moved to `Filament\Schemas\Components`, for example `Grid`, `Section`, `Fieldset`, `Tabs`, `Wizard`, etc.
+- A new `Repeater` component for Forms has been added.
+- Icons now use the `Filament\Support\Icons\Heroicon` Enum by default. Other options are available and documented.
+
+### Organize Component Classes Structure
+- Schema components: `Schemas/Components/`
+- Table columns: `Tables/Columns/`
+- Table filters: `Tables/Filters/`
+- Actions: `Actions/`
 </laravel-boost-guidelines>

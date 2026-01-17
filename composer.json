@@ -84,15 +84,15 @@
         "lint": [
             "@rector",
             "@pint",
-            "@types"
+            "@types",
+            "npm run format",
+            "npm run lint"
         ],
         "rector": [
             "rector"
         ],
         "test": [
             "@php artisan config:clear --ansi",
-            "npm run format",
-            "npm run lint",
             "npm run build",
             "@php artisan test"
         ],

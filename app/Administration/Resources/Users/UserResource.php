@@ -18,6 +18,8 @@ class UserResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     /**
      * Configure the form's schema.
      */
@@ -46,6 +48,18 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'view' => Pages\ViewUser::route('/{record}'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
+        ];
+    }
+
+    /**
+     * Get the resource's relation managers.
+     *
+     * @return array<class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\TenantsRelationManager::class,
         ];
     }
 

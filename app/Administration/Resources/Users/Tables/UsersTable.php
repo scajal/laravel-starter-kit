@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Administration\Resources\Users\Tables;
 
 use Filament\Actions;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Tables;
 use Filament\Tables\Table;
 
 class UsersTable
@@ -17,9 +17,9 @@ class UsersTable
     {
         return $table
             ->columns([
-                TextColumn::make('email')
+                Tables\Columns\TextColumn::make('email')
                     ->searchable(isIndividual: true),
-                TextColumn::make('name')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(isIndividual: true),
             ])
             ->recordActions([

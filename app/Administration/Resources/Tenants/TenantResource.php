@@ -18,6 +18,8 @@ class TenantResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     /**
      * Configure the form's schema.
      */

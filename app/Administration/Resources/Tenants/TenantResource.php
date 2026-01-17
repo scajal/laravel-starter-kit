@@ -52,6 +52,18 @@ class TenantResource extends Resource
     }
 
     /**
+     * Get the resource's relation managers.
+     *
+     * @return array<class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\UsersRelationManager::class,
+        ];
+    }
+
+    /**
      * Configure the table's columns.
      */
     public static function table(Table $table): Table

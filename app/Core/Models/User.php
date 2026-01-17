@@ -10,20 +10,22 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
 
 /**
- * @property int $id
- * @property string $name
+ * @property string $id
  * @property string $email
  * @property \Carbon\CarbonImmutable|null $email_verified_at
+ * @property string $name
  * @property string $password
  * @property string|null $remember_token
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read \Spatie\Multitenancy\TenantCollection<int, \App\Core\Models\Tenant> $tenants
  *
  * @method static \Database\Factories\Core\Models\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|\App\Core\Models\User newModelQuery()
@@ -60,6 +62,16 @@ class User extends Authenticatable implements FilamentUser
         'password',
         'remember_token',
     ];
+
+    /**
+     * Get the tenants that the user belongs to.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Core\Models\Tenant, $this>
+     */
+    public function tenants(): BelongsToMany
+    {
+        return $this->belongsToMany(Tenant::class);
+    }
 
     /**
      * Indicate if the user can access the administration panel.

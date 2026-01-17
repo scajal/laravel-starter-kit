@@ -116,10 +116,11 @@ class AdministrationPanelProvider extends PanelProvider
      */
     protected function configurePlugins(): void
     {
-        LanguageSwitch::configureUsing(
-            fn (LanguageSwitch $plugin): LanguageSwitch => $plugin->locales(
-                Locales::installed()->pluck('code')->toArray()
-            )
-        );
+        /** @todo: Enable after plugin supports Filament v5. */
+        // LanguageSwitch::configureUsing(
+        // fn (LanguageSwitch $plugin): LanguageSwitch => $plugin->locales(
+        // Locales::installed()->pluck('code')->toArray()
+        // )
+        // );
     }
 }

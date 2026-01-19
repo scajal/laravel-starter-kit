@@ -54,6 +54,7 @@ alwaysApply: true
   controller only shows a single resource, define `public function show(...)` instead of `public function __invoke(...)`.
 - Always use Laravel's @session() directive instead of @if(session()) for displaying flash messages in Blade templates.
 - In Blade files always use `@selected()` and `@checked()` directives instead of `selected` and `checked` HTML attributes. Good example: @selected(old('status') === App\Enums\ProjectStatus::Pending->value). Bad example: {{ old('status') === App\Enums\ProjectStatus::Pending->value ? 'selected' : '' }}.
+- When generating migrations, only add the `up()` method. Do NOT add a `down()` method.
 
 ---
 
@@ -88,7 +89,7 @@ The Laravel Boost guidelines are specifically curated by Laravel maintainers for
 ## Foundational Context
 This application is a Laravel application and its main Laravel ecosystems package & versions are below. You are an expert with them all. Ensure you abide by these specific packages & versions.
 
-- php - 8.4.16
+- php - 8.4.15
 - filament/filament (FILAMENT) - v5
 - inertiajs/inertia-laravel (INERTIA) - v2
 - laravel/framework (LARAVEL) - v12

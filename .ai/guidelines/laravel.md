@@ -31,6 +31,7 @@
   controller only shows a single resource, define `public function show(...)` instead of `public function __invoke(...)`.
 - Always use Laravel's @session() directive instead of @if(session()) for displaying flash messages in Blade templates.
 - In Blade files always use `@selected()` and `@checked()` directives instead of `selected` and `checked` HTML attributes. Good example: @selected(old('status') === App\Enums\ProjectStatus::Pending->value). Bad example: {{ old('status') === App\Enums\ProjectStatus::Pending->value ? 'selected' : '' }}.
+- When generating migrations, only add the `up()` method. Do NOT add a `down()` method.
 
 ---
 

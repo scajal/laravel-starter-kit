@@ -19,6 +19,12 @@ alwaysApply: true
 - In Filament v4, if you create custom Blade files with Tailwind classes, you need to create a custom theme and specify the folder of those Blade files in theme.css.
 - When creating a resource, copy and use other resources as base, if any, replacing the corresponding classes.
 
+=== .ai/general rules ===
+
+## General rules
+
+- For library documentation, if a library is not available directly in the registered MCP servers, always use Context7. Automatically use the Context7 MCP tools to resolve the library's ID and get the library docs without me having to explicitly ask.
+
 === .ai/laravel rules ===
 
 ## General code instructions

@@ -41,4 +41,16 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
         ];
     }
+
+    /**
+     * Define the props that are shared once and remembered across navigations.
+     *
+     * @return array<string, callable>
+     */
+    public function shareOnce(Request $request): array
+    {
+        return [
+            ...parent::shareOnce($request),
+        ];
+    }
 }

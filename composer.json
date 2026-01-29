@@ -48,6 +48,10 @@
         }
     },
     "scripts": {
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently \"php artisan serve\" \"npm run dev\""
+        ],
         "setup": [
             "composer install",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",

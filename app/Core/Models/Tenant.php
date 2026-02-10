@@ -34,6 +34,16 @@ class Tenant extends \Spatie\Multitenancy\Models\Tenant
     use HasUuids;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'database',
+        'name',
+    ];
+
+    /**
      * Get the users that belong to the tenant.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Core\Models\User, $this>
@@ -41,5 +51,25 @@ class Tenant extends \Spatie\Multitenancy\Models\Tenant
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
+    }
+
+    /**
+     * Create the database for the tenant.
+     */
+    public function createDatabase(): void
+    {
+        if ($this->getConnection()->getDriverName() === 'sqlite') {
+            file_exists("database/{$this->database}.sqlite") || touch("database/{$this->database}.sqlite");
+        } else {
+            $this->getConnection()->statement("CREATE DATABASE IF NOT EXISTS {$this->database}");
+        }
+    }
+
+    /**
+     * Executed whenever the tenant is booted.
+     */
+    protected static function booted(): void
+    {
+        static::creating(fn (self $model): mixed => $model->createDatabase());
     }
 }

@@ -6,6 +6,7 @@ namespace Database\Factories\Core\Models;
 
 use App\Core\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Core\Models\Tenant>
@@ -27,7 +28,8 @@ class TenantFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->company(),
+            'database' => Str::replace(' ', '_', ($company = fake()->unique()->company())),
+            'name' => $company,
         ];
     }
 }

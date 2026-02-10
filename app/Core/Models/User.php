@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 /**
  * @property string $id
@@ -41,6 +42,7 @@ class User extends Authenticatable implements FilamentUser
 
     use HasUuids;
     use Notifiable;
+    use UsesLandlordConnection;
 
     /**
      * The attributes that are mass assignable.

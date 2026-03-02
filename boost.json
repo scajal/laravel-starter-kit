@@ -2,10 +2,13 @@
     "agents": [
         "cursor"
     ],
-    "editors": [
-        "cursor"
-    ],
-    "guidelines": [
+    "packages": [
         "filament/filament"
+    ],
+    "skills": [
+        "wayfinder-development",
+        "pest-testing",
+        "inertia-react-development",
+        "tailwindcss-development"
     ]
 }

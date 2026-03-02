@@ -1,0 +1,6 @@
+# Default owner
+* @scajal
+
+# Workflow/security-sensitive files require tech lead review
+.github/workflows/* @scajal
+AGENTS.md @scajal

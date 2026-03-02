@@ -48,7 +48,7 @@ abstract class TestCase extends BaseTestCase
 
         if (Tenant::count() > 0 && File::isDirectory($tenantMigrationsPath) && count(File::files($tenantMigrationsPath)) > 0) {
             Artisan::call('tenants:artisan', [
-                'artisanCommand' => 'migrate:fresh --database=tenant',
+                'artisanCommand' => 'migrate:fresh --database=tenant --path='.$tenantMigrationsPath,
             ]);
         }
     }

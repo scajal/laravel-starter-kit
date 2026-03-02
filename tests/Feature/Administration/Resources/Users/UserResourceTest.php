@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-use App\Modules\Administration\Resources\Users\Pages\CreateUser;
-use App\Modules\Administration\Resources\Users\Pages\EditUser;
-use App\Modules\Administration\Resources\Users\Pages\ListUsers;
-use App\Modules\Administration\Resources\Users\Pages\ViewUser;
+use App\Modules\Administration\Panels\Landlord\Resources\Administration\Users\Pages\CreateUser;
+use App\Modules\Administration\Panels\Landlord\Resources\Administration\Users\Pages\EditUser;
+use App\Modules\Administration\Panels\Landlord\Resources\Administration\Users\Pages\ListUsers;
+use App\Modules\Administration\Panels\Landlord\Resources\Administration\Users\Pages\ViewUser;
 use App\Modules\Core\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Filament\Facades\Filament;
 use Livewire\Livewire;
-
-uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
     /** @var \Tests\TestCase $this */
+    Filament::setCurrentPanel('administration-landlord');
+
     /** @disregard P1014 */
     $this->user = User::factory()->create();
 
@@ -190,4 +190,19 @@ it('can delete a user', function (): void {
     $this->assertDatabaseMissing('users', [
         'id' => $user->id,
     ], 'landlord');
+});
+
+it('can bulk delete users', function (): void {
+    $users = User::factory()->count(3)->create();
+
+    Livewire::test(ListUsers::class)
+        ->callTableBulkAction(\Filament\Actions\DeleteBulkAction::class, $users)
+        ->assertNotified();
+
+    /** @var \Tests\TestCase $this */
+    foreach ($users as $user) {
+        $this->assertDatabaseMissing('users', [
+            'id' => $user->id,
+        ], 'landlord');
+    }
 });

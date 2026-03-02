@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Modules\Administration\Panels\Landlord\Resources\Administration\Users\Schemas;
 
+use App\Modules\Core\Models\User;
 use Filament\Forms;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Operation;
 use Filament\Support\Enums\Width;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserForm
 {
@@ -50,6 +52,11 @@ class UserForm
                         ->required()
                         ->string()
                         ->maxLength(255),
+                    Forms\Components\Select::make(new User()->currentTenant()->getForeignKeyName())
+                        ->columnSpanFull()
+                        ->relationship('currentTenant', 'name', fn (Builder $query, User $record): Builder => $query->whereHas('users', fn (Builder $query): Builder => $query->whereKey($record->getKey())))
+                        ->searchable()
+                        ->preload(),
                 ]),
         ];
     }

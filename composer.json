@@ -96,6 +96,10 @@
         "rector": [
             "rector"
         ],
+        "reset": [
+            "@php artisan migrate:fresh --seed --path=database/migrations/landlord",
+            "@php artisan tenants:artisan \"migrate:fresh --seed --database=tenant\""
+        ],
         "test": [
             "@php artisan config:clear --ansi",
             "npm run build",

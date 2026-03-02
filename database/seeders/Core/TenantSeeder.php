@@ -14,6 +14,10 @@ class TenantSeeder extends Seeder
      */
     public function run(): void
     {
+        if (Tenant::checkCurrent()) {
+            return;
+        }
+
         Tenant::factory()->create();
     }
 }

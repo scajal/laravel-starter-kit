@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders\Core;
 
-use App\Core\Models\User;
+use App\Modules\Core\Models\User;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder

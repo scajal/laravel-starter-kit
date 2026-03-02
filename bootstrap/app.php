@@ -10,7 +10,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(web: __DIR__.'/../routes/web.php')
     ->withMiddleware(fn (Middleware $middleware): Middleware => $middleware
         ->web(append: [
-            \App\Core\Http\Middleware\HandleInertiaRequests::class,
+            \App\Modules\Core\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ])
     )

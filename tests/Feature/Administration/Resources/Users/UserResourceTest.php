@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Administration\Resources\Users\Pages\CreateUser;
-use App\Administration\Resources\Users\Pages\EditUser;
-use App\Administration\Resources\Users\Pages\ListUsers;
-use App\Administration\Resources\Users\Pages\ViewUser;
-use App\Core\Models\User;
+use App\Modules\Administration\Resources\Users\Pages\CreateUser;
+use App\Modules\Administration\Resources\Users\Pages\EditUser;
+use App\Modules\Administration\Resources\Users\Pages\ListUsers;
+use App\Modules\Administration\Resources\Users\Pages\ViewUser;
+use App\Modules\Core\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 

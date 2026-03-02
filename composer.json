@@ -57,7 +57,8 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
-            "@php artisan migrate --force",
+            "@php artisan migrate:fresh --seed --path=database/migrations/landlord",
+            "@php artisan tenants:artisan \"migrate:fresh --seed --database=tenant\"",
             "npm install",
             "npm run build"
         ],

@@ -52,7 +52,7 @@ return [
     'casts' => [
         DateTimeInterface::class => Spatie\LaravelData\Casts\DateTimeInterfaceCast::class,
         BackedEnum::class => Spatie\LaravelData\Casts\EnumCast::class,
-        Collection::class => App\Core\Support\Spatie\LaravelData\Casts\CollectionCast::class,
+        Collection::class => App\Modules\Core\Support\Spatie\LaravelData\Casts\CollectionCast::class,
         //        Enumerable::class => Spatie\LaravelData\Casts\EnumerableCast::class,
     ],
 

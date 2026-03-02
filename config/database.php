@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 use Illuminate\Support\Str;
 
-return [
+/**
+ * The default configuration for the database
+ * connections.
+ *
+ * @var array<string, mixed> $database
+ */
+$database = [
 
     /*
     |--------------------------------------------------------------------------
@@ -32,7 +38,6 @@ return [
     */
 
     'connections' => [
-
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),
@@ -183,3 +188,11 @@ return [
     ],
 
 ];
+
+// Add the tenant and landlord connections to
+// the database configuration, according to the
+// selected database connection name.
+$database['connections']['landlord'] = $database['connections'][env('DB_LANDLORD_CONNECTION', env('DB_CONNECTION'))]; // @phpstan-ignore-line offsetAccess.nonOffsetAccessible
+$database['connections']['tenant'] = [...(array) ($database['connections'][env('DB_TENANT_CONNECTION', env('DB_CONNECTION'))] ?? []), 'database' => null]; // @phpstan-ignore-line offsetAccess.nonOffsetAccessible, arrayUnpacking.nonIterable
+
+return $database;

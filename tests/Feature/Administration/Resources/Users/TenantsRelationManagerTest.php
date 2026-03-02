@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Administration\Resources\Users\RelationManagers\TenantsRelationManager;
-use App\Core\Models\Tenant;
-use App\Core\Models\User;
+use App\Modules\Administration\Resources\Users\RelationManagers\TenantsRelationManager;
+use App\Modules\Core\Models\Tenant;
+use App\Modules\Core\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 
@@ -20,7 +20,7 @@ it('can render tenants relation manager', function (): void {
 
     Livewire::test(TenantsRelationManager::class, [
         'ownerRecord' => $ownerRecord,
-        'pageClass' => \App\Administration\Resources\Users\Pages\EditUser::class,
+        'pageClass' => \App\Modules\Administration\Resources\Users\Pages\EditUser::class,
     ])->assertSuccessful();
 });
 
@@ -31,7 +31,7 @@ it('can list user tenants', function (): void {
 
     Livewire::test(TenantsRelationManager::class, [
         'ownerRecord' => $ownerRecord,
-        'pageClass' => \App\Administration\Resources\Users\Pages\EditUser::class,
+        'pageClass' => \App\Modules\Administration\Resources\Users\Pages\EditUser::class,
     ])
         ->assertSuccessful()
         ->loadTable()
@@ -44,7 +44,7 @@ it('can attach tenants to user', function (): void {
 
     Livewire::test(TenantsRelationManager::class, [
         'ownerRecord' => $ownerRecord,
-        'pageClass' => \App\Administration\Resources\Users\Pages\EditUser::class,
+        'pageClass' => \App\Modules\Administration\Resources\Users\Pages\EditUser::class,
     ])
         ->callTableAction(\Filament\Actions\AttachAction::class, data: [
             'recordId' => $tenants->pluck('id')->toArray(),
@@ -61,7 +61,7 @@ it('can detach a tenant from user', function (): void {
 
     Livewire::test(TenantsRelationManager::class, [
         'ownerRecord' => $ownerRecord,
-        'pageClass' => \App\Administration\Resources\Users\Pages\EditUser::class,
+        'pageClass' => \App\Modules\Administration\Resources\Users\Pages\EditUser::class,
     ])
         ->callTableAction(\Filament\Actions\DetachAction::class, record: $tenant)
         ->assertNotified();
@@ -76,7 +76,7 @@ it('can bulk detach tenants from user', function (): void {
 
     Livewire::test(TenantsRelationManager::class, [
         'ownerRecord' => $ownerRecord,
-        'pageClass' => \App\Administration\Resources\Users\Pages\EditUser::class,
+        'pageClass' => \App\Modules\Administration\Resources\Users\Pages\EditUser::class,
     ])
         ->callTableBulkAction(\Filament\Actions\DetachBulkAction::class, $tenants)
         ->assertNotified();

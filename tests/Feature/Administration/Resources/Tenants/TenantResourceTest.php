@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Administration\Resources\Tenants\Pages\CreateTenant;
-use App\Administration\Resources\Tenants\Pages\EditTenant;
-use App\Administration\Resources\Tenants\Pages\ListTenants;
-use App\Administration\Resources\Tenants\Pages\ViewTenant;
-use App\Core\Models\Tenant;
-use App\Core\Models\User;
+use App\Modules\Administration\Resources\Tenants\Pages\CreateTenant;
+use App\Modules\Administration\Resources\Tenants\Pages\EditTenant;
+use App\Modules\Administration\Resources\Tenants\Pages\ListTenants;
+use App\Modules\Administration\Resources\Tenants\Pages\ViewTenant;
+use App\Modules\Core\Models\Tenant;
+use App\Modules\Core\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 

@@ -199,6 +199,7 @@
     "The given data was invalid.": "The given data was invalid.",
     "The response is not a streamed response.": "The response is not a streamed response.",
     "The response is not a view.": "The response is not a view.",
+    "The user can't access this tenant.": "The user can't access this tenant.",
     "This action is unauthorized.": "This action is unauthorized.",
     "This password reset link will expire in :count minutes.": "This password reset link will expire in :count minutes.",
     "to": "to",

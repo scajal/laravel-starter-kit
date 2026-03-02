@@ -99,7 +99,7 @@
         "test": [
             "@php artisan config:clear --ansi",
             "npm run build",
-            "@php artisan test"
+            "@php artisan test --compact"
         ],
         "types": [
             "phpstan analyse --memory-limit=1024M"

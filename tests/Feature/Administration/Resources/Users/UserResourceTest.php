@@ -13,7 +13,11 @@ use Livewire\Livewire;
 uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
+    /** @var \Tests\TestCase $this */
+    /** @disregard P1014 */
     $this->user = User::factory()->create();
+
+    /** @disregard P1014 */
     $this->actingAs($this->user);
 });
 
@@ -53,10 +57,11 @@ it('can create a user', function (): void {
         ->call('create')
         ->assertNotified();
 
+    /** @var \Tests\TestCase $this */
     $this->assertDatabaseHas('users', [
         'name' => 'Test User',
         'email' => 'test@example.com',
-    ]);
+    ], 'landlord');
 });
 
 it('validates required fields when creating a user', function (): void {
@@ -181,7 +186,8 @@ it('can delete a user', function (): void {
         ->callAction(\Filament\Actions\DeleteAction::class)
         ->assertNotified();
 
+    /** @var \Tests\TestCase $this */
     $this->assertDatabaseMissing('users', [
         'id' => $user->id,
-    ]);
+    ], 'landlord');
 });

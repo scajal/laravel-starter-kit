@@ -14,7 +14,11 @@ use Livewire\Livewire;
 uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
+    /** @var \Tests\TestCase $this */
+    /** @disregard P1014 */
     $this->user = User::factory()->create();
+
+    /** @disregard P1014 */
     $this->actingAs($this->user);
 });
 
@@ -43,9 +47,10 @@ it('can create a tenant', function (): void {
         ->call('create')
         ->assertNotified();
 
+    /** @var \Tests\TestCase $this */
     $this->assertDatabaseHas('tenants', [
         'name' => 'Test Tenant',
-    ]);
+    ], 'landlord');
 });
 
 it('validates required fields when creating a tenant', function (): void {
@@ -104,7 +109,8 @@ it('can delete a tenant', function (): void {
         ->callAction(\Filament\Actions\DeleteAction::class)
         ->assertNotified();
 
+    /** @var \Tests\TestCase $this */
     $this->assertDatabaseMissing('tenants', [
         'id' => $tenant->id,
-    ]);
+    ], 'landlord');
 });

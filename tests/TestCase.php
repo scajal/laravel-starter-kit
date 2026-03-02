@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\Modules\Core\Landlord\Models\Tenant;
+use App\Modules\Core\Models\Tenant;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 
 abstract class TestCase extends BaseTestCase
 {
-    /**
-     * Configure the test environment and run migrations.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -21,9 +19,6 @@ abstract class TestCase extends BaseTestCase
         $this->migrateDatabases();
     }
 
-    /**
-     * Set in-memory SQLite paths for landlord and tenant and ensure files exist.
-     */
     protected function configureDatabases(): void
     {
         $landlordDatabasePath = database_path('testing-landlord.sqlite');
@@ -41,17 +36,20 @@ abstract class TestCase extends BaseTestCase
         config()->set('database.connections.tenant.database', $tenantDatabasePath);
     }
 
-    /**
-     * Run landlord and tenant migrations fresh; ensure metrics.code column exists.
-     */
     protected function migrateDatabases()
     {
         Artisan::call('migrate:fresh', [
+            '--database' => 'landlord',
             '--path' => database_path('migrations/landlord'),
+            '--realpath' => true,
         ]);
 
-        Artisan::call('tenants:artisan', [
-            'artisanCommand' => 'migrate:fresh --database=tenant',
-        ]);
+        $tenantMigrationsPath = database_path('migrations/tenant');
+
+        if (Tenant::count() > 0 && File::isDirectory($tenantMigrationsPath) && count(File::files($tenantMigrationsPath)) > 0) {
+            Artisan::call('tenants:artisan', [
+                'artisanCommand' => 'migrate:fresh --database=tenant',
+            ]);
+        }
     }
 }
